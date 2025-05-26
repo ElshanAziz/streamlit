@@ -22,7 +22,7 @@ def load_file(local_file):
     if local_file is not None:
         weather_df = pd.read_excel(local_file)
     else:
-        weather_df = pd.read_excel(r'https://github.com/ElshanAziz/streamlit/blob/main/weather_dataset.xlsx')
+        weather_df = pd.read_excel('https://raw.githubusercontent.com/ElshanAziz/streamlit/main/weather_dataset.xlsx')
     return weather_df
 
 weather_df = load_file(local_file)
