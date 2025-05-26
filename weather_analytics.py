@@ -25,7 +25,7 @@ def load_file(local_file):
         weather_df = pd.read_excel('https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx')
     return weather_df
 
-#weather_df = load_file(local_file)
+weather_df = pd.read_excel("weather_dataset.xlsx")
 
 weather_df['date'] = pd.to_datetime(weather_df['date'], errors='coerce')
 weather_df['year'] = weather_df['date'].dt.year.astype(str)
