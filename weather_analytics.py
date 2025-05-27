@@ -9,23 +9,39 @@ import plotly.express as px
 
 # Title and description
 st.title("Weather Data Analysis for Main Regions of Azerbaijan")
-st.markdown('The data is sourced from https://meteostat.net')
+st.markdown('The data is sourced from [meteostat.net](https://meteostat.net)')
 
 st.sidebar.title('Filters and Navigation')
 
-# Load the dataset
-#local_file = st.sidebar.file_uploader('Select local Excel file')
+# File uploader in sidebar
+uploaded_file = st.sidebar.file_uploader('Upload weather dataset (.xlsx)', type="xlsx")
 
-#@st.cache_data()
-#def load_file(local_file):
-    #time.sleep(3)
-    #if local_file is not None:
-        #weather_df = pd.read_excel(local_file)
-    #else:
-        #weather_df = pd.read_excel('https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx')
-    #return weather_df
+# Function to load from GitHub
+@st.cache_data
+def load_remote_file():
+    url = 'https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx'
+    return pd.read_excel(url)
 
-weather_df = pd.read_excel('https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx')
+# Try loading from GitHub first, fallback to uploaded file
+weather_df = None
+
+try:
+    if uploaded_file is not None:
+        weather_df = pd.read_excel(uploaded_file)
+        st.success("Loaded dataset from local upload.")
+    else:
+        weather_df = load_remote_file()
+        st.success("Loaded dataset from GitHub.")
+except Exception as e:
+    st.error("❌ Failed to load dataset from both GitHub and file uploader.")
+    st.exception(e)
+
+# Proceed if the dataset was loaded successfully
+if weather_df is not None:
+    st.subheader("Dataset Preview")
+    st.dataframe(weather_df)
+else:
+    st.warning("Please upload a valid Excel file or check your internet connection.")
 
 weather_df['date'] = pd.to_datetime(weather_df['date'], errors='coerce')
 weather_df['year'] = weather_df['date'].dt.year.astype(str)
