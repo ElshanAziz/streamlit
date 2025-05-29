@@ -9,21 +9,21 @@ import plotly.express as px
 
 # Title and description
 st.title("Weather Data Analysis for Main Regions of Azerbaijan")
-st.markdown('The data is sourced from https://meteostat.net')
+#st.markdown('The data is sourced from https://meteostat.net')
 
 st.sidebar.title('Filters and Navigation')
 
 # Load the dataset
-#local_file = st.sidebar.file_uploader('Select local Excel file')
+local_file = st.sidebar.file_uploader('Select local Excel file')
 
-#@st.cache_data()
-#def load_file(local_file):
-    #time.sleep(3)
-    #if local_file is not None:
-        #weather_df = pd.read_excel(local_file)
-    #else:
-        #weather_df = pd.read_excel('https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx')
-    #return weather_df
+@st.cache_data()
+def load_file(local_file):
+    time.sleep(3)
+    if local_file is not None:
+        weather_df = pd.read_excel(local_file)
+    else:
+        weather_df = pd.read_excel('https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx')
+    return weather_df
 
 weather_df = pd.read_excel('https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx')
 
