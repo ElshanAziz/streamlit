@@ -8,7 +8,7 @@ import time
 import plotly.express as px
 
 # Title and description
-st.title("Weather Data Analysis for Main Regions of Azerbaijan")
+st.title("Weather data analysis for main regions of Azerbaijan")
 ##st.markdown('The data is sourced from https://meteostat.net')
 
 st.sidebar.title('Filters and Navigation')
@@ -62,7 +62,8 @@ selected_months = st.sidebar.multiselect('Select the month', months)
 selected_seasons = st.sidebar.multiselect('Select the season', seasons)
 selected_cities = st.sidebar.multiselect('Select the city', cities)
 
-# Create select boxes for X and Y values
+# Create select boxes for X,Y,Z values
+st.markdown('Choose parameters for 3D visualization')
 numeric_columns = weather_df.select_dtypes(include=['number']).columns.tolist()
 selected_x_var = st.selectbox('X value', numeric_columns)
 selected_y_var = st.selectbox('Y value', numeric_columns)
