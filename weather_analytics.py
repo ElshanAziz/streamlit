@@ -32,15 +32,15 @@ weather_df['year'] = weather_df['date'].dt.year.astype(str)
 weather_df['month'] = weather_df['date'].dt.month.astype(str).str.zfill(2)
 weather_df['month_name'] = weather_df['date'].dt.strftime('%B')
 weather_df.rename(columns={'tavg':'temperature_average',
-    'tmin':'temperature_min',
-    'tmax':'temperature_max',
-    'prcp':'precipitation',
-    'wdir':'wind_direction',
-    'wspd':'wind_speed',
-    'wpgt':'wind_peak_gust',
-    'pres':'pressure',
-    'tsun':'total_sunshine_duration'
-    },inplace=True)
+                           'tmin':'temperature_min',
+                           'tmax':'temperature_max',
+                           'prcp':'precipitation',
+                           'wdir':'wind_direction',
+                           'wspd':'wind_speed',
+                           'wpgt':'wind_peak_gust',
+                           'pres':'pressure',
+                           'tsun':'total_sunshine_duration'
+                           },inplace=True)
                            
 # Define the month-to-season mapping
 def get_season(month):
