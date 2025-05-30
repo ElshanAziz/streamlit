@@ -167,7 +167,7 @@ fig_box = px.box(
     x='year_month',
     y=selected_y_var,
     color='city',
-    title='Distribution of Daily Temperatures Per Month by City',
+    title= f'Distribution of {selected_y_var} Per Month by City',
     labels={'year_month': 'Year-Month', selected_y_var: f'Daily {selected_y_var}'}
 )
 
