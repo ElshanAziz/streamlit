@@ -31,16 +31,18 @@ weather_df['date'] = pd.to_datetime(weather_df['date'], errors='coerce')
 weather_df['year'] = weather_df['date'].dt.year.astype(str)
 weather_df['month'] = weather_df['date'].dt.month.astype(str).str.zfill(2)
 weather_df['month_name'] = weather_df['date'].dt.strftime('%B')
-weather_df['tavg'] = weather_df['temperature_average']
-weather_df['tmin'] = weather_df['temperature_min']
-weather_df['tmax'] = weather_df['temperature_max']
-weather_df['prcp'] = weather_df['precipitation']
-weather_df['wdir'] = weather_df['wind_direction']
-weather_df['wspd'] = weather_df['wind_speed']
-weather_df['wpgt'] = weather_df['wind_peak_gust']
-weather_df['pres'] = weather_df['pressure']
-weather_df['tsun'] = weather_df['total_sunshine_duration']
-
+weather_df.rename(columns={
+    'tavg':'temperature_average',
+    'tmin':'temperature_min',
+    'tmax':'temperature_max',
+    'prcp':'precipitation',
+    'wdir':'wind_direction',
+    'wspd':'wind_speed',
+    'wpgt':'wind_peak_gust',
+    'pres':'pressure',
+    'tsun':'total_sunshine_duration'
+    },inplace=True)
+                           
 # Define the month-to-season mapping
 def get_season(month):
     month = int(month)
