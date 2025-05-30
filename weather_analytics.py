@@ -31,8 +31,7 @@ weather_df['date'] = pd.to_datetime(weather_df['date'], errors='coerce')
 weather_df['year'] = weather_df['date'].dt.year.astype(str)
 weather_df['month'] = weather_df['date'].dt.month.astype(str).str.zfill(2)
 weather_df['month_name'] = weather_df['date'].dt.strftime('%B')
-weather_df.rename(columns={
-    'tavg':'temperature_average',
+weather_df.rename(columns={'tavg':'temperature_average',
     'tmin':'temperature_min',
     'tmax':'temperature_max',
     'prcp':'precipitation',
