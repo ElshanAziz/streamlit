@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import time
 import plotly.express as px
 import io
+import csv
 
 # Title and description
 st.title("Weather analytics Web Application")
@@ -14,46 +15,60 @@ st.markdown('The data is sourced from https://meteostat.net')
 
 st.sidebar.title('Filters and Navigation')
 
-# File uploader
-local_file = st.sidebar.file_uploader("Select your local Excel or CSV file", type=["xlsx", "xls", "csv"])
+# Allow multiple file uploads
+uploaded_files = st.sidebar.file_uploader(
+    "Upload one or more Excel or CSV files", 
+    type=["xlsx", "xls", "csv"], 
+    accept_multiple_files=True
+)
 
 @st.cache_data(show_spinner="Loading data...")
 def load_file(file):
-    time.sleep(3)  # simulate long processing
-    
-    # Determine file type by extension
-    if isinstance(file, str):  # fallback for remote URL
-        return pd.read_excel(file)
-    
-    file_name = file.name.lower()
+    time.sleep(1)  # simulate processing delay
 
-    if file_name.endswith(('.xlsx', '.xls')):
+    # For remote URL (string)
+    if isinstance(file, str):
         return pd.read_excel(file)
     
-    elif file_name.endswith('.csv'):
-        # Read initial portion to detect delimiter
+    filename = file.name.lower()
+
+    if filename.endswith(('.xlsx', '.xls')):
+        return pd.read_excel(file)
+    
+    elif filename.endswith('.csv'):
+        # Auto-detect delimiter
         sample = file.read(2048).decode('utf-8', errors='ignore')
-        file.seek(0)  # reset pointer
-
-        import csv
-        from io import StringIO
-
-        sniffer = csv.Sniffer()
-        dialect = sniffer.sniff(sample)
+        file.seek(0)
+        dialect = csv.Sniffer().sniff(sample)
         delimiter = dialect.delimiter
-        
+
         return pd.read_csv(file, delimiter=delimiter)
     
     else:
-        st.error("Unsupported file format.")
+        st.warning(f"Unsupported file format: {file.name}")
         return None
 
-# Load data
-if local_file is not None:
-    weather_df = load_file(local_file)
+# Load and union all valid uploaded files
+if uploaded_files:
+    dataframes = []
+    for file in uploaded_files:
+        df = load_file(file)
+        if df is not None:
+            dataframes.append(df)
+
+    # Check if all DataFrames have the same structure
+    if all(df.columns.equals(dataframes[0].columns) for df in dataframes):
+        weather_df = pd.concat(dataframes, ignore_index=True)
+    else:
+        st.error("Uploaded files do not have the same structure.")
+        weather_df = None
 else:
     default_url = 'https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx'
     weather_df = load_file(default_url)
+
+# Display preview if loaded successfully
+if weather_df is not None:
+    st.dataframe(weather_df.head())
 
 #def load_file(local_file):
     #time.sleep(3)
