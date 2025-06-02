@@ -8,8 +8,8 @@ import time
 import plotly.express as px
 
 # Title and description
-st.title("Weather analytics for main regions of Azerbaijan")
-#st.markdown('The data is sourced from https://meteostat.net')
+st.title("Weather analytics Web Application")
+st.markdown('The data is sourced from https://meteostat.net')
 
 st.sidebar.title('Filters and Navigation')
 
@@ -27,9 +27,6 @@ else:
     default_url = 'https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx'
     weather_df = load_file(default_url)
 
-#st.write(weather_df.head())
-
-
 #def load_file(local_file):
     #time.sleep(3)
     #if local_file is not None:
@@ -37,8 +34,6 @@ else:
     #else:
         #weather_df = pd.read_excel('https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx')
     #return weather_df
-
-#weather_df = pd.read_excel('https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx')
 
 weather_df['date'] = pd.to_datetime(weather_df['date'], errors='coerce')
 weather_df['year'] = weather_df['date'].dt.year.astype(str)
