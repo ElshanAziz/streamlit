@@ -27,7 +27,7 @@ else:
     default_url = 'https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx'
     weather_df = load_file(default_url)
 
-st.write(weather_df.head())
+#st.write(weather_df.head())
 
 
 #def load_file(local_file):
