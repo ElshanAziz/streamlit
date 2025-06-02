@@ -38,6 +38,7 @@ weather_df.rename(columns={'tavg':'temperature_average',
                            'wdir':'wind_direction',
                            'wspd':'wind_speed',
                            'wpgt':'wind_peak_gust',
+                           'snow':'snow_depth',
                            'pres':'pressure',
                            'tsun':'total_sunshine_duration'
                            },inplace=True)
