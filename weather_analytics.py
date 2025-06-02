@@ -6,6 +6,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import time
 import plotly.express as px
+import io
 
 # Title and description
 st.title("Weather analytics Web Application")
