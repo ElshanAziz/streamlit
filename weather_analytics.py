@@ -67,8 +67,8 @@ else:
     weather_df = load_file(default_url)
 
 # Display preview if loaded successfully
-if weather_df is not None:
-    st.dataframe(weather_df.head())
+#if weather_df is not None:
+    #st.dataframe(weather_df.head())
 
 #def load_file(local_file):
     #time.sleep(3)
