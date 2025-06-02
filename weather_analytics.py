@@ -13,14 +13,41 @@ st.markdown('The data is sourced from https://meteostat.net')
 
 st.sidebar.title('Filters and Navigation')
 
-# Load the dataset
-local_file = st.sidebar.file_uploader('Select your local Excel file')
+# File uploader
+local_file = st.sidebar.file_uploader("Select your local Excel or CSV file", type=["xlsx", "xls", "csv"])
 
 @st.cache_data(show_spinner="Loading data...")
-def load_file(file_bytes):
-    time.sleep(3)
-    return pd.read_excel(file_bytes)
+def load_file(file):
+    time.sleep(3)  # simulate long processing
+    
+    # Determine file type by extension
+    if isinstance(file, str):  # fallback for remote URL
+        return pd.read_excel(file)
+    
+    file_name = file.name.lower()
 
+    if file_name.endswith(('.xlsx', '.xls')):
+        return pd.read_excel(file)
+    
+    elif file_name.endswith('.csv'):
+        # Read initial portion to detect delimiter
+        sample = file.read(2048).decode('utf-8', errors='ignore')
+        file.seek(0)  # reset pointer
+
+        import csv
+        from io import StringIO
+
+        sniffer = csv.Sniffer()
+        dialect = sniffer.sniff(sample)
+        delimiter = dialect.delimiter
+        
+        return pd.read_csv(file, delimiter=delimiter)
+    
+    else:
+        st.error("Unsupported file format.")
+        return None
+
+# Load data
 if local_file is not None:
     weather_df = load_file(local_file)
 else:
