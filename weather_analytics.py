@@ -14,16 +14,29 @@ st.title("Weather analytics for main regions of Azerbaijan")
 st.sidebar.title('Filters and Navigation')
 
 # Load the dataset
-local_file = st.sidebar.file_uploader('Select local Excel file')
+local_file = st.sidebar.file_uploader('Select your local Excel file')
 
-@st.cache_data()
-def load_file(local_file):
+@st.cache_data(show_spinner="Loading data...")
+def load_file(file_bytes):
     time.sleep(3)
-    if local_file is not None:
-        weather_df = pd.read_excel(local_file)
-    else:
-        weather_df = pd.read_excel('https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx')
-    return weather_df
+    return pd.read_excel(file_bytes)
+
+if local_file is not None:
+    weather_df = load_file(local_file)
+else:
+    default_url = 'https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx'
+    weather_df = load_file(default_url)
+
+st.write(weather_df.head())
+
+
+#def load_file(local_file):
+    #time.sleep(3)
+    #if local_file is not None:
+        #weather_df = pd.read_excel(local_file)
+    #else:
+        #weather_df = pd.read_excel('https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx')
+    #return weather_df
 
 #weather_df = pd.read_excel('https://github.com/ElshanAziz/streamlit/raw/refs/heads/main/weather_dataset.xlsx')
 
